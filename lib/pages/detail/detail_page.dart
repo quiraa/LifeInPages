@@ -4,6 +4,8 @@ import 'package:life_in_pages/pages/detail/mobile_detail_page.dart';
 import 'package:life_in_pages/pages/detail/web_detail_page.dart';
 
 class DetailPage extends StatelessWidget {
+  static const routeName = "/books_detail";
+
   final Books book;
   const DetailPage({Key? key, required this.book}) : super(key: key);
 

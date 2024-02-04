@@ -4,6 +4,8 @@ import 'package:life_in_pages/pages/home/books_grid.dart';
 import 'package:life_in_pages/pages/home/books_list.dart';
 
 class HomePage extends StatelessWidget {
+  static const routeName = "/books_home";
+
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -11,6 +13,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('LifeInPages'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
