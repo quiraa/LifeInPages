@@ -1,13 +1,19 @@
+import 'package:book_store/config/routes/route_handler.dart';
+import 'package:book_store/config/routes/screen_routes.dart';
+import 'package:book_store/config/theme/themes.dart';
+import 'package:book_store/features/interface/provider/book_provider.dart';
+import 'package:book_store/features/interface/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:life_in_pages/model/books.dart';
-import 'package:life_in_pages/pages/detail/detail_page.dart';
-import 'package:life_in_pages/pages/home/home_page.dart';
-import 'package:life_in_pages/pages/login/login_page.dart';
-import 'package:life_in_pages/pages/register/register_page.dart';
-import 'package:life_in_pages/pages/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => BookProvider()),
+      ChangeNotifierProvider(create: (_) => ThemeProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,21 +21,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'LifeInPages',
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
-      ),
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (context) => const SplashScreen(),
-        LoginPage.routeName: (context) => const LoginPage(),
-        RegisterPage.routeName: (context) => const RegisterPage(),
-        HomePage.routeName: (context) => const HomePage(),
-        DetailPage.routeName: (context) => DetailPage(
-            book: ModalRoute.of(context)?.settings.arguments as Books)
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, _) {
+        return MaterialApp(
+          title: 'BookStore',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme().lightTheme(),
+          darkTheme: AppTheme().darkTheme(),
+          themeMode: themeProvider.themeMode,
+          onGenerateRoute: RouteHandler().onGenerateRoute,
+          initialRoute: ScreenRoutes.home,
+        );
       },
     );
   }
